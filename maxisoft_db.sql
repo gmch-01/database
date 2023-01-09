@@ -62,7 +62,7 @@ CREATE TABLE `insumo` (
 
 LOCK TABLES `insumo` WRITE;
 /*!40000 ALTER TABLE `insumo` DISABLE KEYS */;
-INSERT INTO `insumo` VALUES (1001,'harina','kilos'),(1002,'levadura','kilos'),(1003,'azucar','kilos'),(1004,'ejemplo','kilos'),(1005,'ejemplo','si '),(1006,'ejemplo 2 ','qwer'),(1007,'wqerreqw','asdffdas'),(1008,'asdf','asdf'),(1009,'asdd','qwerr');
+INSERT INTO `insumo` VALUES (10001,'harina','kilos'),(10002,'levadura','kilos'),(10003,'azucar','kilos');
 /*!40000 ALTER TABLE `insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +143,7 @@ CREATE TABLE `kardex_insumo` (
 
 LOCK TABLES `kardex_insumo` WRITE;
 /*!40000 ALTER TABLE `kardex_insumo` DISABLE KEYS */;
-INSERT INTO `kardex_insumo` VALUES (70001,'2023-05-24 04:00:00','DonJose',5,1001,'485','gonzalo'),(70002,'2023-05-16 04:00:00','qwerrr',123444,1234,'12344','qwerrr');
+INSERT INTO `kardex_insumo` VALUES (30001,'2023-05-24 04:00:00','DonJose',5,1001,'485','gonzalo'),(30002,'2023-05-16 04:00:00','qwerrr',123444,1234,'12344','qwerrr');
 /*!40000 ALTER TABLE `kardex_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `kardex_producto` (
 
 LOCK TABLES `kardex_producto` WRITE;
 /*!40000 ALTER TABLE `kardex_producto` DISABLE KEYS */;
-INSERT INTO `kardex_producto` VALUES (90001,'2023-06-18 04:00:00',50,30001,'Gonzalo'),(90002,'2023-05-10 04:00:00',123444,123444,'qwerrr');
+INSERT INTO `kardex_producto` VALUES (40001,'2023-06-18 04:00:00',50,30001,'Gonzalo'),(40002,'2023-05-10 04:00:00',123444,123444,'qwerrr');
 /*!40000 ALTER TABLE `kardex_producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,33 +221,34 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (30001,'pan molde','receta de pan molde'),(30002,'sarnita','receta de pan sarnita ');
+INSERT INTO `producto` VALUES (20001,'pan molde','receta de pan molde'),(20002,'sarnita','receta de pan sarnita ');
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `recetas`
+-- Table structure for table `receta`
 --
 
-DROP TABLE IF EXISTS `recetas`;
+DROP TABLE IF EXISTS `receta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recetas` (
-  `id_recetas` int NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
-  `id_insumo` varchar(45) DEFAULT NULL,
-  `cantidad` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_recetas`)
+CREATE TABLE `receta` (
+  `id_receta` int NOT NULL,
+  `id_producto` int DEFAULT NULL,
+  `id_insumo` int DEFAULT NULL,
+  `cantidad` int DEFAULT NULL,
+  PRIMARY KEY (`id_receta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `recetas`
+-- Dumping data for table `receta`
 --
 
-LOCK TABLES `recetas` WRITE;
-/*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
+LOCK TABLES `receta` WRITE;
+/*!40000 ALTER TABLE `receta` DISABLE KEYS */;
+INSERT INTO `receta` VALUES (123,20002,10001,1234),(50001,20001,10002,5),(50002,20002,10001,3);
+/*!40000 ALTER TABLE `receta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -291,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-08 17:04:35
+-- Dump completed on 2023-01-09  2:07:33
