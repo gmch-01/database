@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
--- Host: localhost    Database: maxisoft_db
+-- Host: 127.0.0.1    Database: maxisoft_db
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,7 +29,9 @@ CREATE TABLE `hoja_de_produccion` (
   `fecha_hoja` date DEFAULT NULL,
   `encargado` varchar(50) DEFAULT NULL,
   `estado` int DEFAULT NULL,
-  `progreso` int DEFAULT NULL,
+  `progreso` int DEFAULT '0',
+  `peso_recibido` int DEFAULT '0',
+  `embolsado` int DEFAULT '0',
   PRIMARY KEY (`id_hoja_produccion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +42,7 @@ CREATE TABLE `hoja_de_produccion` (
 
 LOCK TABLES `hoja_de_produccion` WRITE;
 /*!40000 ALTER TABLE `hoja_de_produccion` DISABLE KEYS */;
-INSERT INTO `hoja_de_produccion` VALUES (90001,50001,3,'2023-05-16','Gonzalo',1,0),(90002,50002,5,'2023-09-10','qwer',1,0);
+INSERT INTO `hoja_de_produccion` VALUES (90001,50001,3,'2023-05-16','Gonzalo',1,50,150,0),(90002,50002,5,'2023-09-10','qwer',1,0,0,0),(90003,50002,2,'2023-06-10','Juan',1,0,0,0);
 /*!40000 ALTER TABLE `hoja_de_produccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,6 +216,8 @@ CREATE TABLE `producto` (
   `id_producto` int NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
+  `peso_receta` double DEFAULT NULL,
+  `cantidad_bolsa` int DEFAULT NULL,
   PRIMARY KEY (`id_producto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -224,7 +228,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (20001,'pan molde','receta de pan molde'),(20002,'sarnita','receta de pan sarnita '),(20003,'Hamburguesa','Hamburguesa con queso'),(20004,'Molde Pizza','molde dde pizza'),(20005,'Panchito',NULL);
+INSERT INTO `producto` VALUES (20001,'Pan molde','receta de pan molde',45.75,84),(20002,'Sarnita','receta de pan sarnita ',58.2,140),(20003,'Hamburguesa','Hamburguesa con queso',59.2,140),(20004,'Molde Pizza','Molde Pizza',NULL,NULL),(20005,'Panchito','Panchito largo',NULL,NULL);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,7 +311,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (8442536,'Gonzalo','Cuevas',0,'4to centenario ',78865656,'masculino','gcuevash','123456','00:00:00');
+INSERT INTO `usuario` VALUES (123456,'Pepito','Grillo',1,'ya tu sabe',78852520,'masculino','pepitog','123456',NULL),(8442536,'Gonzalo','Cuevas',0,'4to centenario ',78865656,'masculino','gcuevash','123456','00:00:00');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -320,4 +324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-11 11:46:43
+-- Dump completed on 2023-01-11 18:42:31
