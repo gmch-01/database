@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: maxisoft_db
+-- Host: localhost    Database: maxisoft_db
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ CREATE TABLE `hoja_de_produccion` (
   `id_hoja_produccion` int NOT NULL,
   `id_receta` int DEFAULT NULL,
   `cantidad` double DEFAULT NULL,
-  `fecha_hoja` date DEFAULT NULL,
+  `fecha_hoja` varchar(50) DEFAULT NULL,
   `encargado` varchar(50) DEFAULT NULL,
   `estado` int DEFAULT NULL,
   `progreso` int DEFAULT '0',
@@ -42,7 +42,7 @@ CREATE TABLE `hoja_de_produccion` (
 
 LOCK TABLES `hoja_de_produccion` WRITE;
 /*!40000 ALTER TABLE `hoja_de_produccion` DISABLE KEYS */;
-INSERT INTO `hoja_de_produccion` VALUES (90001,50001,3,'2023-05-16','Gonzalo',1,50,150,0),(90002,50002,5,'2023-09-10','qwer',1,0,0,0),(90003,50002,2,'2023-06-10','Juan',1,0,0,0);
+INSERT INTO `hoja_de_produccion` VALUES (9019,50001,10,'2023-05-19','jhtf',NULL,70,40,86),(90001,50014,3,'2023-05-16','Gonzalo',1,100,120,20);
 /*!40000 ALTER TABLE `hoja_de_produccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,6 +72,32 @@ INSERT INTO `insumo` VALUES (10001,'harina','kilos'),(10002,'levadura','kilos'),
 UNLOCK TABLES;
 
 --
+-- Table structure for table `insumos_has_recetas`
+--
+
+DROP TABLE IF EXISTS `insumos_has_recetas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `insumos_has_recetas` (
+  `insumo_id_insumo` int NOT NULL,
+  `recetas_id_recetas` int NOT NULL,
+  PRIMARY KEY (`insumo_id_insumo`,`recetas_id_recetas`),
+  KEY `fk_insumo_has_recetas_recetas1_idx` (`recetas_id_recetas`),
+  CONSTRAINT `fk_insumo_has_recetas_insumo1` FOREIGN KEY (`insumo_id_insumo`) REFERENCES `insumo` (`id_insumo`),
+  CONSTRAINT `fk_insumo_has_recetas_recetas1` FOREIGN KEY (`recetas_id_recetas`) REFERENCES `receta` (`id_receta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `insumos_has_recetas`
+--
+
+LOCK TABLES `insumos_has_recetas` WRITE;
+/*!40000 ALTER TABLE `insumos_has_recetas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `insumos_has_recetas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `inventario_insumo`
 --
 
@@ -93,7 +119,7 @@ CREATE TABLE `inventario_insumo` (
 
 LOCK TABLES `inventario_insumo` WRITE;
 /*!40000 ALTER TABLE `inventario_insumo` DISABLE KEYS */;
-INSERT INTO `inventario_insumo` VALUES (60001,10001,'2023-05-20',100),(60002,10002,'2023-06-15',200),(60003,10003,'2023-04-10',50),(60004,10004,'2023-06-04',20),(60005,10005,'2023-02-06',35),(60006,10006,'2023-03-10',27),(60007,10007,'2023-04-20',42);
+INSERT INTO `inventario_insumo` VALUES (60001,10001,'2023-05-20',10),(60002,10002,'2023-06-15',200),(60003,10003,'2023-06-10',5),(60004,10004,'2023-06-04',20),(60005,10005,'2023-02-06',35),(60006,10006,'2023-03-10',27),(60007,10007,'2023-04-20',42);
 /*!40000 ALTER TABLE `inventario_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +131,7 @@ DROP TABLE IF EXISTS `inventario_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inventario_producto` (
-  `id_inv_producto` int NOT NULL,
+  `id_inv_producto` int NOT NULL AUTO_INCREMENT,
   `tipo_prod` int DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
   `cantidad_actual` int DEFAULT NULL,
@@ -119,7 +145,7 @@ CREATE TABLE `inventario_producto` (
 
 LOCK TABLES `inventario_producto` WRITE;
 /*!40000 ALTER TABLE `inventario_producto` DISABLE KEYS */;
-INSERT INTO `inventario_producto` VALUES (50001,20001,'2023-05-20',150),(50002,20002,'2023-05-25',250),(50003,20003,'2023-02-10',50),(50004,20004,'2023-03-15',20),(50005,20005,'2023-02-06',10);
+INSERT INTO `inventario_producto` VALUES (50001,20001,'2023-05-20',10),(50002,20002,'2023-05-25',70),(50003,20003,'2023-02-10',50),(50004,20004,'2023-03-15',30),(50005,20005,'2023-02-06',50);
 /*!40000 ALTER TABLE `inventario_producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,15 +157,16 @@ DROP TABLE IF EXISTS `kardex_insumo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kardex_insumo` (
-  `id_det_insumo` int NOT NULL,
-  `fecha_entrada` timestamp NULL DEFAULT NULL,
+  `id_det_insumo` int NOT NULL AUTO_INCREMENT,
+  `fecha_entrada` varchar(40) DEFAULT NULL,
   `proveedor` varchar(45) DEFAULT NULL,
   `cantidad` double DEFAULT NULL,
   `id_insumo` int DEFAULT NULL,
   `peso` varchar(45) DEFAULT NULL,
   `usuario` varchar(45) DEFAULT NULL,
+  `fecha_vencimiento` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_det_insumo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30004 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +175,7 @@ CREATE TABLE `kardex_insumo` (
 
 LOCK TABLES `kardex_insumo` WRITE;
 /*!40000 ALTER TABLE `kardex_insumo` DISABLE KEYS */;
-INSERT INTO `kardex_insumo` VALUES (30001,'2023-05-24 04:00:00','DonJose',5,1001,'485','gonzalo'),(30002,'2023-05-16 04:00:00','qwerrr',123444,1234,'12344','qwerrr');
+INSERT INTO `kardex_insumo` VALUES (30001,'2023-05-24 ','DonJose',5,10001,'485','gonzalo','2023-05-10'),(30002,'2023-05-16','Pepe',20,10002,'12344','qwerrr','2023-02-12'),(30003,'2023-06-10','pepe',5,10003,NULL,'gonzalo','2023-06-10');
 /*!40000 ALTER TABLE `kardex_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,13 +187,14 @@ DROP TABLE IF EXISTS `kardex_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kardex_producto` (
-  `id_det_producto` int NOT NULL,
-  `fecha_registro` timestamp NULL DEFAULT NULL,
+  `id_det_producto` int NOT NULL AUTO_INCREMENT,
+  `fecha_registro` varchar(45) DEFAULT NULL,
   `cantidad` int DEFAULT NULL,
   `id_producto` int DEFAULT NULL,
   `encargado` varchar(45) DEFAULT NULL,
+  `fecha_vencimiento` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_det_producto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40016 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +203,7 @@ CREATE TABLE `kardex_producto` (
 
 LOCK TABLES `kardex_producto` WRITE;
 /*!40000 ALTER TABLE `kardex_producto` DISABLE KEYS */;
-INSERT INTO `kardex_producto` VALUES (40001,'2023-06-18 04:00:00',50,30001,'Gonzalo'),(40002,'2023-05-10 04:00:00',123444,123444,'qwerrr');
+INSERT INTO `kardex_producto` VALUES (40001,'2023-06-17',50,20001,'Gonzalo','2023-09-16'),(40002,'2023-05-15',20,20003,'Peper','2023-05-10'),(40014,'2023-10-02',20,20002,'Jose',NULL);
 /*!40000 ALTER TABLE `kardex_producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +256,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (20001,'Pan molde','receta de pan molde',45.75,84),(20002,'Sarnita','receta de pan sarnita ',58.2,140),(20003,'Hamburguesa','Hamburguesa con queso',59.2,140),(20004,'Molde Pizza','Molde Pizza',NULL,NULL),(20005,'Panchito','Panchito largo',NULL,NULL);
+INSERT INTO `producto` VALUES (20001,'Pan molde','receta de pan molde',45.75,84),(20002,'Sarnita','receta de pan sarnita ',58.2,140),(20003,'Hamburguesa','Hamburguesa con queso',59.2,140),(20004,'Molde Pizza','Molde Pizza',50.3,145),(20005,'Panchito','Panchito Extra largo',55.4,140);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,12 +268,12 @@ DROP TABLE IF EXISTS `receta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `receta` (
-  `id_receta` int NOT NULL,
+  `id_receta` int NOT NULL AUTO_INCREMENT,
   `id_producto` int DEFAULT NULL,
   `id_insumo` int DEFAULT NULL,
-  `cantidad` int DEFAULT NULL,
+  `cantidad` double DEFAULT NULL,
   PRIMARY KEY (`id_receta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50020 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,33 +282,8 @@ CREATE TABLE `receta` (
 
 LOCK TABLES `receta` WRITE;
 /*!40000 ALTER TABLE `receta` DISABLE KEYS */;
-INSERT INTO `receta` VALUES (50001,20001,10002,5),(50002,20002,10001,3),(50003,20001,10003,4),(50004,20002,10004,5),(12341234,20001,10002,23452345);
+INSERT INTO `receta` VALUES (50001,20001,10001,39),(50002,20001,10002,2),(50003,20001,10003,3),(50004,20001,10004,2),(50005,20001,10005,0.5),(50006,20001,10006,0.15),(50007,20001,10007,0.1),(50008,20002,10001,50),(50009,20002,10002,2),(50010,20002,10003,3),(50011,20002,10004,2),(50012,20002,10006,0.1),(50013,20002,10007,0.1),(50014,20003,10001,50),(50015,20003,10002,2),(50016,20003,10003,5),(50017,20003,10004,3),(50018,20003,10006,0.1),(50019,20003,10007,0.1);
 /*!40000 ALTER TABLE `receta` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `recetas`
---
-
-DROP TABLE IF EXISTS `recetas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recetas` (
-  `id_recetas` int NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
-  `id_insumo` varchar(45) DEFAULT NULL,
-  `cantidad` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_recetas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recetas`
---
-
-LOCK TABLES `recetas` WRITE;
-/*!40000 ALTER TABLE `recetas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `recetas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -324,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-11 18:42:31
+-- Dump completed on 2023-03-12 19:29:42
