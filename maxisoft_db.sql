@@ -42,7 +42,7 @@ CREATE TABLE `hoja_de_produccion` (
 
 LOCK TABLES `hoja_de_produccion` WRITE;
 /*!40000 ALTER TABLE `hoja_de_produccion` DISABLE KEYS */;
-INSERT INTO `hoja_de_produccion` VALUES (90001,50008,20,'2023-02-03','PePe',NULL,0,0,0);
+INSERT INTO `hoja_de_produccion` VALUES (90001,50008,20,'2023-02-03','PePe',NULL,20,0,0);
 /*!40000 ALTER TABLE `hoja_de_produccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,6 +57,8 @@ CREATE TABLE `insumo` (
   `id_insumo` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `unidad` varchar(45) DEFAULT NULL,
+  `max` int(20) DEFAULT NULL,
+  `min` int(20) DEFAULT NULL,
   PRIMARY KEY (`id_insumo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -67,7 +69,7 @@ CREATE TABLE `insumo` (
 
 LOCK TABLES `insumo` WRITE;
 /*!40000 ALTER TABLE `insumo` DISABLE KEYS */;
-INSERT INTO `insumo` VALUES (10001,'harina','kilos'),(10002,'levadura','kilos'),(10003,'azucar','kilos'),(10004,'manteca','kilos'),(10005,'gluten','kilos'),(10006,'antimoho','kilos'),(10007,'lusopan','kilos');
+INSERT INTO `insumo` VALUES (10001,'harina','kilos',20000,3000),(10002,'levadura','kilos',1000,NULL),(10003,'azucar','kilos',10000,NULL),(10004,'manteca','kilos',500,NULL),(10005,'gluten','kilos',200,NULL),(10006,'antimoho','kilos',100,NULL),(10007,'lusopan','kilos',100,NULL),(10008,'leche','litros',50,NULL),(10009,'huevos','unidades',150,NULL);
 /*!40000 ALTER TABLE `insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +138,7 @@ CREATE TABLE `inventario_producto` (
   `fecha_vencimiento` date DEFAULT NULL,
   `cantidad_actual` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_inv_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=50006 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50007 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +147,7 @@ CREATE TABLE `inventario_producto` (
 
 LOCK TABLES `inventario_producto` WRITE;
 /*!40000 ALTER TABLE `inventario_producto` DISABLE KEYS */;
-INSERT INTO `inventario_producto` VALUES (50001,20001,'2023-05-20',10),(50002,20002,'2023-05-25',70),(50003,20003,'2023-02-10',50),(50004,20004,'2023-03-15',30),(50005,20005,'2023-02-06',50);
+INSERT INTO `inventario_producto` VALUES (50001,20001,'2023-05-20',10),(50002,20002,'2023-05-25',70),(50003,20003,'2023-02-10',50),(50004,20004,'2023-03-15',30),(50005,20005,'2023-02-06',50),(50006,20001,'2023-12-10',100);
 /*!40000 ALTER TABLE `inventario_producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +196,7 @@ CREATE TABLE `kardex_producto` (
   `encargado` varchar(45) DEFAULT NULL,
   `fecha_vencimiento` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_det_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=40015 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40016 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,7 +205,7 @@ CREATE TABLE `kardex_producto` (
 
 LOCK TABLES `kardex_producto` WRITE;
 /*!40000 ALTER TABLE `kardex_producto` DISABLE KEYS */;
-INSERT INTO `kardex_producto` VALUES (40001,'2023-06-17',50,20001,'Gonzalo','2023-09-16'),(40002,'2023-05-15',20,20003,'Peper','2023-05-10'),(40014,'2023-10-02',20,20002,'Jose','2023-08-10');
+INSERT INTO `kardex_producto` VALUES (40001,'2023-06-17',50,20001,'Gonzalo','2023-09-16'),(40002,'2023-05-15',20,20003,'Peper','2023-05-10'),(40014,'2023-10-02',20,20002,'Jose','2023-08-10'),(40015,'2023-11-10',100,20001,'qwer','2023-12-10');
 /*!40000 ALTER TABLE `kardex_producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-26 21:12:07
+-- Dump completed on 2023-05-02 19:34:22
