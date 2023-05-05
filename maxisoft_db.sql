@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: maxisoft_db
+-- Host: localhost    Database: maxisoft_db
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	5.6.51-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,17 +23,17 @@ DROP TABLE IF EXISTS `hoja_de_produccion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hoja_de_produccion` (
-  `id_hoja_produccion` int NOT NULL AUTO_INCREMENT,
-  `id_receta` int DEFAULT NULL,
+  `id_hoja_produccion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_receta` int(11) DEFAULT NULL,
   `cantidad` double DEFAULT NULL,
   `fecha_hoja` varchar(50) DEFAULT NULL,
   `encargado` varchar(50) DEFAULT NULL,
-  `estado` int DEFAULT NULL,
-  `progreso` int DEFAULT '0',
-  `peso_recibido` int DEFAULT '0',
-  `embolsado` int DEFAULT '0',
+  `estado` int(11) DEFAULT NULL,
+  `progreso` int(11) DEFAULT '0',
+  `peso_recibido` int(11) DEFAULT '0',
+  `embolsado` int(11) DEFAULT '0',
   PRIMARY KEY (`id_hoja_produccion`)
-) ENGINE=InnoDB AUTO_INCREMENT=90005 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=90010 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `hoja_de_produccion` (
 
 LOCK TABLES `hoja_de_produccion` WRITE;
 /*!40000 ALTER TABLE `hoja_de_produccion` DISABLE KEYS */;
-INSERT INTO `hoja_de_produccion` VALUES (90001,50008,20,'2023-02-03','PePe',NULL,20,0,0),(90002,50001,50,'2023-05-03','Gmch',NULL,20,0,0),(90003,50014,20,'2023-05-03','Mercurio',NULL,20,0,0),(90004,50008,50,'2023-05-03','Lopez',NULL,0,0,0);
+INSERT INTO `hoja_de_produccion` VALUES (90001,50008,20,'2023-02-03','PePe',NULL,20,0,0),(90002,50001,50,'2023-05-03','Gmch',NULL,20,0,0),(90003,50014,20,'2023-05-03','Mercurio',NULL,20,0,0),(90004,50008,50,'2023-05-03','Lopez',NULL,0,0,0),(90005,50008,3,'2023-05-04','Max',NULL,0,0,0),(90006,50008,5,'2023-05-04','Fer',NULL,0,0,0),(90007,50001,3,'2023-05-04','Pool',NULL,20,0,0),(90008,50014,4,'2023-05-05','Max',NULL,0,0,0),(90009,50001,6,'2023-05-05','Jose',NULL,20,0,0);
 /*!40000 ALTER TABLE `hoja_de_produccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,11 +54,11 @@ DROP TABLE IF EXISTS `insumo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `insumo` (
-  `id_insumo` int NOT NULL,
+  `id_insumo` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `unidad` varchar(45) DEFAULT NULL,
-  `max` int DEFAULT NULL,
-  `min` int DEFAULT NULL,
+  `max` int(11) DEFAULT NULL,
+  `min` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_insumo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -69,7 +69,7 @@ CREATE TABLE `insumo` (
 
 LOCK TABLES `insumo` WRITE;
 /*!40000 ALTER TABLE `insumo` DISABLE KEYS */;
-INSERT INTO `insumo` VALUES (10001,'harina','kilos',20000,3000),(10002,'levadura','kilos',1000,NULL),(10003,'azucar','kilos',10000,NULL),(10004,'manteca','kilos',500,NULL),(10005,'gluten','kilos',200,NULL),(10006,'antimoho','kilos',100,NULL),(10007,'lusopan','kilos',100,NULL),(10008,'leche','litros',50,NULL),(10009,'huevos','unidades',150,NULL);
+INSERT INTO `insumo` VALUES (10001,'harina','kilos',9200,2000),(10002,'levadura','kilos',313,NULL),(10003,'azucar','kilos',2300,NULL),(10004,'manteca','kilos',850,NULL),(10005,'gluten','kilos',100,NULL),(10006,'antimoho','kilos',50,NULL),(10007,'mejorador_masa','kilos',50,NULL),(10008,'leche','litros',100,NULL),(10009,'huevos','unidades',3000,NULL);
 /*!40000 ALTER TABLE `insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,8 +81,8 @@ DROP TABLE IF EXISTS `insumos_has_recetas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `insumos_has_recetas` (
-  `insumo_id_insumo` int NOT NULL,
-  `recetas_id_recetas` int NOT NULL,
+  `insumo_id_insumo` int(11) NOT NULL,
+  `recetas_id_recetas` int(11) NOT NULL,
   PRIMARY KEY (`insumo_id_insumo`,`recetas_id_recetas`),
   KEY `fk_insumo_has_recetas_recetas1_idx` (`recetas_id_recetas`),
   CONSTRAINT `fk_insumo_has_recetas_insumo1` FOREIGN KEY (`insumo_id_insumo`) REFERENCES `insumo` (`id_insumo`),
@@ -107,12 +107,13 @@ DROP TABLE IF EXISTS `inventario_insumo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inventario_insumo` (
-  `id_inv_ins` int NOT NULL AUTO_INCREMENT,
-  `tipo_insumo` int DEFAULT NULL,
-  `fecha_venc` date DEFAULT NULL,
-  `cantidad_actual` int DEFAULT NULL,
+  `id_inv_ins` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo_insumo` int(11) DEFAULT NULL,
+  `fecha_venc` varchar(12) DEFAULT NULL,
+  `cantidad_actual` int(11) DEFAULT NULL,
+  `lote` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_inv_ins`)
-) ENGINE=InnoDB AUTO_INCREMENT=60011 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=60015 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +122,7 @@ CREATE TABLE `inventario_insumo` (
 
 LOCK TABLES `inventario_insumo` WRITE;
 /*!40000 ALTER TABLE `inventario_insumo` DISABLE KEYS */;
-INSERT INTO `inventario_insumo` VALUES (60001,10001,'2023-05-20',10),(60002,10002,'2023-06-15',200),(60003,10003,'2023-06-10',5),(60004,10004,'2023-06-04',20),(60005,10005,'2023-02-06',35),(60006,10006,'2023-03-10',27),(60007,10007,'2023-04-20',42),(60008,10001,'2023-05-10',-10),(60009,10001,'2023-09-10',150),(60010,10001,'2023-10-18',-50);
+INSERT INTO `inventario_insumo` VALUES (60001,10001,'2023-05-20',100,'A1'),(60002,10002,'2023-06-15',200,'B1'),(60003,10003,'2023-06-10',5,'C1'),(60004,10004,'2023-06-04',20,'D1'),(60005,10005,'2023-05-09',35,'E1'),(60006,10006,'2023-05-10',27,'F1'),(60007,10007,'2023-05-12',42,'G1'),(60008,10001,'2023-09-10',-10,'A2'),(60009,10001,'2023-09-10',150,'A2'),(60010,10001,'',-50,'A1'),(60011,10002,'2023-05-18',30,'B2'),(60012,10002,'2023-05-18',20,'B2'),(60013,10002,'2023-05-18',20,'B2'),(60014,10001,'2023-05-20',250,'A3');
 /*!40000 ALTER TABLE `inventario_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,10 +134,10 @@ DROP TABLE IF EXISTS `inventario_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inventario_producto` (
-  `id_inv_producto` int NOT NULL AUTO_INCREMENT,
-  `tipo_prod` int DEFAULT NULL,
+  `id_inv_producto` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo_prod` int(11) DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
-  `cantidad_actual` int DEFAULT NULL,
+  `cantidad_actual` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_inv_producto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50007 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -159,16 +160,16 @@ DROP TABLE IF EXISTS `kardex_insumo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kardex_insumo` (
-  `id_det_insumo` int NOT NULL AUTO_INCREMENT,
+  `id_det_insumo` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_entrada` varchar(40) DEFAULT NULL,
   `proveedor` varchar(45) DEFAULT NULL,
   `cantidad` double DEFAULT NULL,
-  `id_insumo` int DEFAULT NULL,
+  `id_insumo` int(11) DEFAULT NULL,
   `peso` varchar(45) DEFAULT NULL,
   `usuario` varchar(45) DEFAULT NULL,
   `fecha_vencimiento` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_det_insumo`)
-) ENGINE=InnoDB AUTO_INCREMENT=30009 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30011 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +178,7 @@ CREATE TABLE `kardex_insumo` (
 
 LOCK TABLES `kardex_insumo` WRITE;
 /*!40000 ALTER TABLE `kardex_insumo` DISABLE KEYS */;
-INSERT INTO `kardex_insumo` VALUES (30001,'2023-05-24 ','DonJose',5,10001,'485','gonzalo','2023-05-10'),(30002,'2023-05-16','Pepe',20,10002,'12344','qwerrr','2023-02-12'),(30003,'2023-06-10','pepe',5,10003,NULL,'gonzalo','2023-06-10'),(30006,'2023-08-10','GmCh',150,10001,NULL,'gmch','2023-09-10'),(30008,'2023-10-09','GPMx',-50,10001,NULL,'GGMMCCHH','2023-10-18');
+INSERT INTO `kardex_insumo` VALUES (30001,'2023-05-24 ','DonJose',5,10001,'485','gonzalo','2023-05-10'),(30002,'2023-05-16','Pepe',20,10002,'12344','qwerrr','2023-02-12'),(30003,'2023-06-10','pepe',5,10003,NULL,'gonzalo','2023-06-10'),(30006,'2023-08-10','GmCh',150,10001,NULL,'gmch','2023-09-10'),(30008,'2023-10-09','GPMx',-50,10001,NULL,'GGMMCCHH','2023-10-18'),(30009,'2023-05-03','Jose',20,10002,NULL,'Fer','2023-05-18'),(30010,'2023-05-03','Taco',250,10001,NULL,'gmch','2023-05-20');
 /*!40000 ALTER TABLE `kardex_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,10 +190,10 @@ DROP TABLE IF EXISTS `kardex_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kardex_producto` (
-  `id_det_producto` int NOT NULL AUTO_INCREMENT,
+  `id_det_producto` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_registro` varchar(45) DEFAULT NULL,
-  `cantidad` int DEFAULT NULL,
-  `id_producto` int DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `id_producto` int(11) DEFAULT NULL,
   `encargado` varchar(45) DEFAULT NULL,
   `fecha_vencimiento` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_det_producto`)
@@ -217,8 +218,8 @@ DROP TABLE IF EXISTS `produccion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `produccion` (
-  `id_produccion` int NOT NULL,
-  `id_hoja_produccion` int DEFAULT NULL,
+  `id_produccion` int(11) NOT NULL,
+  `id_hoja_produccion` int(11) DEFAULT NULL,
   `encargado` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `fecha_produccion` date DEFAULT NULL,
@@ -243,11 +244,11 @@ DROP TABLE IF EXISTS `producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `producto` (
-  `id_producto` int NOT NULL,
+  `id_producto` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `peso_receta` double DEFAULT NULL,
-  `cantidad_bolsa` int DEFAULT NULL,
+  `cantidad_bolsa` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_producto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -270,9 +271,9 @@ DROP TABLE IF EXISTS `receta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `receta` (
-  `id_receta` int NOT NULL AUTO_INCREMENT,
-  `id_producto` int DEFAULT NULL,
-  `id_insumo` int DEFAULT NULL,
+  `id_receta` int(11) NOT NULL AUTO_INCREMENT,
+  `id_producto` int(11) DEFAULT NULL,
+  `id_insumo` int(11) DEFAULT NULL,
   `cantidad` double DEFAULT NULL,
   PRIMARY KEY (`id_receta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50020 DEFAULT CHARSET=latin1;
@@ -296,12 +297,12 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
-  `ci_persona` int NOT NULL,
+  `ci_persona` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
-  `tipo_usuario` int DEFAULT NULL,
+  `tipo_usuario` int(11) DEFAULT NULL,
   `direccion` varchar(60) DEFAULT NULL,
-  `numero_cell` int DEFAULT NULL,
+  `numero_cell` int(11) DEFAULT NULL,
   `genero` varchar(45) DEFAULT NULL,
   `usuario` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
@@ -329,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-03 18:48:35
+-- Dump completed on 2023-05-05 18:40:55
